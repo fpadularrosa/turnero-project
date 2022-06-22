@@ -1,65 +1,31 @@
-const { DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-module.exports = (sequelize) => {
-  sequelize.define('user', {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true, 
-      autoIncrement: true
+const userSchema = new Schema({
+    name: { 
+        type: String,
+        required: true,
+        maxLength: 20
     },
-    username: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true
+    last_name: { 
+      type: String,
+      required: true,
+      maxLength: 20
+    },
+    email: { 
+      type: String,
+      required: true,
+      maxLength: 100
     },
     password: {
-      type: DataTypes.STRING,
-      allowNull: false,
+        type: String,
+        required: true,
     },
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
-      validate: {
-        isEmail: true
-      }
-    },
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    last_name: {
-      type: DataTypes.STRING,
-      allowNull: false
-    },
-    date_of_birth: {
-      type: DataTypes.STRING,
-    },
-    address: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    city: {
-      type: DataTypes.STRING,
-    },
-    zip_code:{
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    country: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    reset_password: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: false
-    },
-    image: {
-      type: DataTypes.TEXT
-    },
-  }, {
-    timestamps: false
-  });
-};
+});
+
+const User = model('User', userSchema);
+
+const userValidation = Joi.object({
+    //Validations
+})
+
+module.exports = { User, userValidation }
